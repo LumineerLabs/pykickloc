@@ -13,6 +13,7 @@ stages:
 - lint
 - test
 - deploy
+script: skip
 jobs:
   include:
   - stage: lint
