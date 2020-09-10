@@ -1,4 +1,3 @@
-import math
 from typing import List
 
 import numpy as np
@@ -12,7 +11,7 @@ def _run_iterations(ki: KickLocIntuitive, node: np.ndarray, beacons: List[np.nda
             ki.update(beacon, 0, np.linalg.norm(node - beacon), std_dev)
 
 
-def _run(kis: List[KickLocIntuitive], nodes: np.ndarray, measurement_std_dev: float):
+def _run(kis: List[KickLocIntuitive], nodes: List[np.ndarray], measurement_std_dev: float):
     for i in range(len(kis)):
         for j in range(len(kis)):
             if i == j:
@@ -27,7 +26,7 @@ def test_single_push():
     beacons = [
         np.array([5, 5, 5])
     ]
-    node = [-1, -1, -1]
+    node = np.array([-1, -1, -1])
     ki = KickLocIntuitive()
 
     _run_iterations(ki, node, beacons, .01, 1)
@@ -39,7 +38,7 @@ def test_single_pull():
     beacons = [
         np.array([5, 5, 5])
     ]
-    node = [1, 1, 1]
+    node = np.array([1, 1, 1])
     ki = KickLocIntuitive()
 
     _run_iterations(ki, node, beacons, .01, 1)
@@ -60,6 +59,7 @@ def test_basic():
     _run_iterations(ki, node, beacons, .01, 10)
 
     assert np.linalg.norm(ki.position - node) < .1
+
 
 def test_multiple_unknowns():
     beacons = [
@@ -84,9 +84,7 @@ def test_multiple_unknowns():
     nodes.extend([unknown for unknown in unknowns])
 
     kis = [KickLocIntuitive(beacon, 0) for beacon in beacons]
-    kis.extend([KickLocIntuitive() for node in unknowns])
-
-    half_beacons = int(len(beacons) / 2)
+    kis.extend([KickLocIntuitive() for _ in unknowns])
 
     for _ in range(40):
         _run(kis, nodes, .01)

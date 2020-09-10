@@ -23,7 +23,6 @@ setup(
     ],
     packages=find_packages(exclude=["tests"]),
     install_requires=[
-        'matplotlib',
         'numpy',
         'pandas',
         'scipy',
