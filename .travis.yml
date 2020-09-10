@@ -13,13 +13,11 @@ stages:
 - lint
 - test
 - deploy
-script: skip
+script: pytest
 jobs:
   include:
   - stage: lint
     script: flake8 --max-line-length 120
-  - stage: test
-    script: pytest
   - stage: deploy
     script: skip
     deploy:
