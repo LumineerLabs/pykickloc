@@ -13,16 +13,22 @@ install:
 stages:
 - lint
 - test
+- deploy
 jobs:
   include:
   - stage: lint
     script: flake8 --max-line-length 120
-script: pytest
-deploy:
-  provider: pypi
-  user: __token__
-  password:
-    secure: UfJXhYJOJMqO5/HQwlgjyvc9qLW5n1VUxQubwxyv8fTaLknrnnV1YUc/IGOAn9yPDtjTNmIhWJRFMF3tsA1wkTm8XgjP9oGypTDZ2YfMjorulSheWOYU087vCVuRlLYXbGitrFtHxNpxHVHLCj89SJRi+JR67WWBfMkvd188/VFTtAaQdkZaPy6Z5OSOleAmaPeAzPd6fyIZbeWHAmZiJlfct6IDarryztfFkqik1SRvJdZfRUgnp2KlcAWxGxJD1Q7axoM1JSUdLt2xn4ePFIduIf4qS8lYvAa1A5ZgX0dUgviERroLvOXl0P4CvTluLXVOhxmhohhTVqY0MhxZkRacg9n/FO3lcxxpCV1wystdTQ3e7CBQasNqRn8pdzPacEYvp0APCTsdxXIe2QRvtQ0lbtfTN7gU15RQR/GYJw0TUcUpXDLtrmpll3se4DyYnIwLrgeryovri+UaGi3+OV3+9WRWqgUB+918+qCYIHQpTEFtrukhNoxMgCJWiBlzVhqWS0cqwZkqId/Ffqpto6AP0/S0F4CfPZ+09bQJhBb+aHlk3ArRZZKNMGs9G6Lesmu4ZrecvzO+zIH6hBng/rhE6v0QM2S6zg9uXqhU8KY94Ttd1AR2XK5AlqvE5NiRFDl19zASYbv9JRHFCcIrALcYjdduxxRLTHsQoyXttwA=
-  on:
-    tags: true
-  skip_existing: true
+  include:
+  - stage: test
+    script: pytest
+  include:
+  - stage: deploy
+    script: skip
+    deploy:
+      provider: pypi
+      user: __token__
+      password:
+        secure: UfJXhYJOJMqO5/HQwlgjyvc9qLW5n1VUxQubwxyv8fTaLknrnnV1YUc/IGOAn9yPDtjTNmIhWJRFMF3tsA1wkTm8XgjP9oGypTDZ2YfMjorulSheWOYU087vCVuRlLYXbGitrFtHxNpxHVHLCj89SJRi+JR67WWBfMkvd188/VFTtAaQdkZaPy6Z5OSOleAmaPeAzPd6fyIZbeWHAmZiJlfct6IDarryztfFkqik1SRvJdZfRUgnp2KlcAWxGxJD1Q7axoM1JSUdLt2xn4ePFIduIf4qS8lYvAa1A5ZgX0dUgviERroLvOXl0P4CvTluLXVOhxmhohhTVqY0MhxZkRacg9n/FO3lcxxpCV1wystdTQ3e7CBQasNqRn8pdzPacEYvp0APCTsdxXIe2QRvtQ0lbtfTN7gU15RQR/GYJw0TUcUpXDLtrmpll3se4DyYnIwLrgeryovri+UaGi3+OV3+9WRWqgUB+918+qCYIHQpTEFtrukhNoxMgCJWiBlzVhqWS0cqwZkqId/Ffqpto6AP0/S0F4CfPZ+09bQJhBb+aHlk3ArRZZKNMGs9G6Lesmu4ZrecvzO+zIH6hBng/rhE6v0QM2S6zg9uXqhU8KY94Ttd1AR2XK5AlqvE5NiRFDl19zASYbv9JRHFCcIrALcYjdduxxRLTHsQoyXttwA=
+      on:
+        tags: true
+      skip_existing: true
