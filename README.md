@@ -1,5 +1,7 @@
 # pykickloc
 
+![build](https://travis-ci.com/LumineerLabs/pykickloc.svg?branch=master) ![PyPI](https://img.shields.io/pypi/v/pykickloc)
+
 A python implementation of the KickLoc Intuitive distributed localization algorithm.
 
 ## Install
