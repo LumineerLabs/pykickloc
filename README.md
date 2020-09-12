@@ -1,11 +1,34 @@
 # pykickloc
-A python implementation of the KickLoc cooperative localization algorithm.
+
+A python implementation of the KickLoc Intuitive distributed localization algorithm.
 
 ## Install
 
 ```bash
 pip3 install pykickloc
 ```
+
+## Usage
+
+To create a beacon, create a KINode with the beacon's position and a standard deviation of 0:
+
+```python
+beacon = KINode(np.array([0, 1, 0]), 0)
+```
+
+To create an unknown node, create a KINode with no parameters:
+
+```python
+unknown = KINode()
+```
+
+Whenever a distance update is received, call update on the local node to update the local node's position:
+
+```python
+node.update(neighbor_position, neighbor_std_dev, distance, distance_std_dev)
+```
+
+If the nodes standard deviation was set to 0 (beacon), the update call will have no effect.
 
 ## References
 
