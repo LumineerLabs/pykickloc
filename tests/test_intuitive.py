@@ -2,16 +2,16 @@ from typing import List
 
 import numpy as np
 
-from pykickloc.intuitive import KickLocIntuitive
+from pykickloc.intuitive import KINode
 
 
-def _run_iterations(ki: KickLocIntuitive, node: np.ndarray, beacons: List[np.ndarray], std_dev: float, iterations: int):
+def _run_iterations(ki: KINode, node: np.ndarray, beacons: List[np.ndarray], std_dev: float, iterations: int):
     for _ in range(iterations):
         for beacon in beacons:
             ki.update(beacon, 0, np.linalg.norm(node - beacon), std_dev)
 
 
-def _run(kis: List[KickLocIntuitive], nodes: List[np.ndarray], measurement_std_dev: float):
+def _run(kis: List[KINode], nodes: List[np.ndarray], measurement_std_dev: float):
     for i in range(len(kis)):
         for j in range(len(kis)):
             if i == j:
@@ -27,7 +27,7 @@ def test_single_push():
         np.array([5, 5, 5])
     ]
     node = np.array([-1, -1, -1])
-    ki = KickLocIntuitive()
+    ki = KINode()
 
     _run_iterations(ki, node, beacons, .01, 1)
 
@@ -39,7 +39,7 @@ def test_single_pull():
         np.array([5, 5, 5])
     ]
     node = np.array([1, 1, 1])
-    ki = KickLocIntuitive()
+    ki = KINode()
 
     _run_iterations(ki, node, beacons, .01, 1)
 
@@ -54,7 +54,7 @@ def test_basic():
         np.array([0, 0, 10])
     ]
     node = np.array([3, 3, 3])
-    ki = KickLocIntuitive()
+    ki = KINode()
 
     _run_iterations(ki, node, beacons, .01, 10)
 
@@ -83,8 +83,8 @@ def test_multiple_unknowns():
     nodes = [beacon for beacon in beacons]
     nodes.extend([unknown for unknown in unknowns])
 
-    kis = [KickLocIntuitive(beacon, 0) for beacon in beacons]
-    kis.extend([KickLocIntuitive() for _ in unknowns])
+    kis = [KINode(beacon, 0) for beacon in beacons]
+    kis.extend([KINode() for _ in unknowns])
 
     for _ in range(40):
         _run(kis, nodes, .01)
