@@ -80,8 +80,8 @@ def test_multiple_unknowns():
         np.array([10, 11, 12])
     ]
 
-    nodes = [beacon for beacon in beacons]
-    nodes.extend([unknown for unknown in unknowns])
+    nodes = list(beacons)
+    nodes.extend(unknowns)
 
     kis = [KINode(beacon, 0) for beacon in beacons]
     kis.extend([KINode() for _ in unknowns])

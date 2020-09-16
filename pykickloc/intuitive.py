@@ -4,8 +4,11 @@ import math
 import numpy as np
 
 
+_def_position = np.array([0, 0, 0])
+
+
 class KINode:
-    def __init__(self, position: np.ndarray = np.array([0, 0, 0]), standard_deviation: float = 1000):
+    def __init__(self, position: np.ndarray = _def_position, standard_deviation: float = 1000):
         self.standard_deviation = standard_deviation
         self.position = copy.deepcopy(position)
 
